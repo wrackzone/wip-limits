@@ -154,10 +154,17 @@
             });
         },
 
-        renderLimit : function(value,meta,record) {
-            console.log(value,meta,record);
+        renderLimit : function(value, meta, record, row, col, store, gridView) {
+            var field = null; 
+            switch(col) {
+                case 4: field = "Defined"; break;
+                case 6: field = "In-Progress"; break;
+                case 8: field = "Completed"; break;
+            }
+            if (value < record.get(field)) {
+                meta.tdCls = 'over-limit'; 
+            }
             return value;
-
         },
 
         _releaseChanged : function(release)
@@ -215,6 +222,10 @@
     <style type="text/css">
         .app {
   /* Add app styles here */
+}
+.over-limit {
+  background-color: red !important;
+  color: white;
 }
 
     </style>
