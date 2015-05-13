@@ -1,3 +1,8 @@
 .app {
      /* Add app styles here */
 }
+
+.over-limit { 
+	background-color:red;
+	color:white; 
+} 

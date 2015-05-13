@@ -102,6 +102,7 @@
         },
         _displayGrid : function(store)
         {
+            var that = this;
             // this.remove('workqueue');
             this.add({
                     xtype : 'rallygrid',
@@ -126,8 +127,8 @@
                                     {
                                             text : 'Defined Limit',
                                             dataIndex : 'defined-wip',
-                                            editor : {xtype:'textfield'}
-
+                                            editor : {xtype:'textfield'},
+                                            renderer: that.renderLimit
                                     },
                                     {
                                             text : 'In-Progress',
@@ -152,6 +153,13 @@
                     ]
             });
         },
+
+        renderLimit : function(value,meta,record) {
+            console.log(value,meta,record);
+            return value;
+
+        },
+
         _releaseChanged : function(release)
         {
             var releaseStartFilter = Ext.create('Rally.data.wsapi.Filter', {
@@ -194,7 +202,7 @@
         }
 });
 
-            Rally.launchApp('CustomApp', {
+            Rally.launchApp('wip-limits', {
                 name:"wip-limits",
 	            parentRepos:""
             });

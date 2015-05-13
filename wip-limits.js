@@ -93,6 +93,7 @@ Ext.define('wip-limits', {
         },
         _displayGrid : function(store)
         {
+            var that = this;
             // this.remove('workqueue');
             this.add({
                     xtype : 'rallygrid',
@@ -117,8 +118,8 @@ Ext.define('wip-limits', {
                                     {
                                             text : 'Defined Limit',
                                             dataIndex : 'defined-wip',
-                                            editor : {xtype:'textfield'}
-
+                                            editor : {xtype:'textfield'},
+                                            renderer: that.renderLimit
                                     },
                                     {
                                             text : 'In-Progress',
@@ -143,6 +144,20 @@ Ext.define('wip-limits', {
                     ]
             });
         },
+
+        renderLimit : function(value, meta, record, row, col, store, gridView) {
+            var field = null; 
+            switch(col) {
+                case 4: field = "Defined"; break;
+                case 6: field = "In-Progress"; break;
+                case 8: field = "Completed"; break;
+            }
+            if (value < record.get(field)) {
+                meta.tdCls = 'over-limit'; 
+            }
+            return value;
+        },
+
         _releaseChanged : function(release)
         {
             var releaseStartFilter = Ext.create('Rally.data.wsapi.Filter', {
