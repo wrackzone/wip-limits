@@ -82,13 +82,26 @@ Ext.define('wip-limits', {
             });
             console.log("Summaries: ", summaries);
             var newStore = Ext.create('Rally.data.custom.Store', {
-                data : summaries,
-                listeners : {
-                    update : function(store,record,op,fieldNames,eOpts) {
-                        console.log("rec:",op,record,fieldNames);
-                    }
-                }
+                data : summaries
+                // listeners : {
+                //     update : function(store,record,op,fieldNames,eOpts) {
+                //         console.log("rec:",op,record,fieldNames);
+                //     },
+                //     beforesave : function(store,record,op,fieldNames,eOpts) {
+                //         console.log("before save:",op,record,fieldNames);
+                //     }
+                // }
+
             });
+
+            newStore.addListener('update', 
+                function(store,record,op,fieldNames,eOpts) {
+                    console.log("update",op,record,fieldNames)
+                },
+                store, {single: true}
+            );
+
+            
             this._displayGrid(newStore);
         },
         _displayGrid : function(store)
